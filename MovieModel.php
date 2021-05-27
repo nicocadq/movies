@@ -4,10 +4,10 @@ require_once './Database.php';
 
 class MovieModel extends Database {
 
-  function create($name, $description) {
-    $sql_query = 'INSERT INTO movies (name, description) VALUES(?,?)';
+  function create($name, $image) {
+    $sql_query = 'INSERT INTO movies (name, image) VALUES(?,?)';
     $statement = parent::get_connection()->prepare($sql_query);
-    $statement->bind_param('ss', $name, $description);
+    $statement->bind_param('ss', $name, $image);
     $statement->execute();
     $statement->close();
     return true; 

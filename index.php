@@ -37,17 +37,17 @@ $movie_model = new MovieModel();
         </label>
         <label for="description">
           Description:
-          <input id="description" name="description" placeholder="Description"/>
+          <input id="image" name="image" placeholder="Image URL"/>
         </label>
         <input type="submit"/>
       </form>
       <?php 
 
       $name = isset($_POST['name']) ? $_POST['name'] : null;
-      $description = isset($_POST['description']) ? $_POST['description'] : null;
+      $image = isset($_POST['image']) ? $_POST['image'] : null;
 
       if($name && $description) {
-        $movie_model->create($name, $description);
+        $movie_model->create($name, $image);
       }
       
       ?>
