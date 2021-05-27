@@ -1,5 +1,7 @@
 <?php
 
+require 'vendor/autoload.php';
+
 require_once './MovieModel.php';
 
 $movie_model = new MovieModel();
