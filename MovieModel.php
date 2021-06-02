@@ -1,6 +1,7 @@
 <?php
 
 require_once './Database.php';
+require_once './Mailer.php';
 
 class MovieModel extends Database {
 
@@ -10,6 +11,9 @@ class MovieModel extends Database {
     $statement->bind_param('ss', $name, $image);
     $statement->execute();
     $statement->close();
+
+    sendMovieEmail($name, $image);
+
     return true; 
   }
 

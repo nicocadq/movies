@@ -38,7 +38,7 @@ $movie_model = new MovieModel();
           <input id="name" name="name" placeholder="Name"/>
         </label>
         <label for="description">
-          Description:
+          Image:
           <input id="image" name="image" placeholder="Image URL"/>
         </label>
         <input type="submit"/>
@@ -48,7 +48,7 @@ $movie_model = new MovieModel();
       $name = isset($_POST['name']) ? $_POST['name'] : null;
       $image = isset($_POST['image']) ? $_POST['image'] : null;
 
-      if($name && $description) {
+      if($name && $image) {
         $movie_model->create($name, $image);
       }
       

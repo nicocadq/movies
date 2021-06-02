@@ -1,36 +1,40 @@
 <?php
 
+require_once './config.inc.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+$to='nicolas.machado@anima.edu.uy';
 
-//Instantiation and passing `true` enables exceptions
-$mail = new PHPMailer(true);
+function sendMovieEmail($name, $image){
+    $mail = new PHPMailer(true);
 
-try {
-    //Server settings
-    $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
-    $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-    $mail->Username = 'user@example.com';                     //SMTP username
-    $mail->Password = 'secret';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    try {
+        $mail->isSMTP();                                        
+        $mail->Host = 'smtp.gmail.com';                     
+        $mail->SMTPAuth = true;                                 
+        $mail->Username = USER_EMAIL;                   
+        $mail->Password = PASSWORD;                             
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         
 
-    //Recipients
-    $mail->setFrom('from@example.com', 'Mailer');
-    $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
-    $mail->addAddress('ellen@example.com');               //Name is optional
-    $mail->addReplyTo('info@example.com', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
+        $mail->setFrom(USER_EMAIL, USER_NAME);
 
-    //Content
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body in bold!';
+        $mail->addAddress($to); 
 
-    $mail->send();
-    echo 'Message has been sent';
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $mail->addReplyTo(REPLY);
+
+        $mail->isHTML(true); 
+        $mail->Subject = 'Test PHPMailer';
+        $mail->Body = 'Movie description '. $name .' and this is the image <img src="'. $image .'" alt="Movie" />';
+
+        $mail->send();
+
+        echo 'Message has been sent';
+    } catch (Exception $exception) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
 }
+
+?>

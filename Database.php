@@ -13,11 +13,11 @@ class Database {
     
     }
 
-    public function get_connection() {
+    function get_connection() {
         return $this->connection;
     }
     
-    public function close_connection(){
+    function close_connection(){
         if($this->connection != false){
            $this->connection->close();
         }
@@ -25,7 +25,7 @@ class Database {
         $this->connection = false;
     }
 
-    public function get_data($query){
+    function get_data($query){
         $results = $this->connection->query($query);
         $formatted_results = [];
 
@@ -36,7 +36,7 @@ class Database {
         return $formatted_results;
     }
 
-    public function insert_data($query){
+    function insert_data($query){
         $results = $this->connection->query($query);
         $rows = $this->connection->affected_rows;
 
