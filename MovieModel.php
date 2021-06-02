@@ -11,9 +11,6 @@ class MovieModel extends Database {
     $statement->bind_param('ss', $name, $image);
     $statement->execute();
     $statement->close();
-
-    sendMovieEmail($name, $image);
-
     return true; 
   }
 

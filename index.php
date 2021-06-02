@@ -4,56 +4,54 @@ require 'vendor/autoload.php';
 
 require_once './MovieModel.php';
 
-$movie_model = new MovieModel();
+
+header('Content-Type: application/json');
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+switch($method){
+    case 'GET': 
+        get();
+        break;
+    case 'POST': 
+        post();
+        break;
+    default:
+        http_response_code(404);
+        echo json_encode(['error' => 'Unavailable method.'], JSON_PRETTY_PRINT);
+        break;
+}
+
+function get() {
+  $movie_model = new MovieModel();
+
+  http_response_code(200);
+  echo json_encode($movie_model->get_all(), JSON_PRETTY_PRINT);
+}
+
+function post() {
+  $movie_model = new MovieModel();
+
+  $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : null;
+  $image = isset($_REQUEST['image']) ? $_REQUEST['image'] : null;
+
+  if($name && $image) {
+    $is_created = $movie_model->create($name, $image);
+
+    if($is_created) {
+      sendMovieEmail($name, $image);
+
+      http_response_code(201);
+      echo json_encode('Successfully created', JSON_PRETTY_PRINT);
+    } else {
+      http_response_code(400);
+      echo json_encode('Something went wrong', JSON_PRETTY_PRINT);
+    }
+  } else {
+    http_response_code(400);
+    echo json_encode('Missing params', JSON_PRETTY_PRINT);
+  }
+}
+
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movies</title>
-  </head>
-  <body>
-    <section>
-      <h2>Movies</h2>
-      <ul>
-        <?php
-
-        foreach($movie_model->get_all() as $movie){ 
-          echo '<li>'.$movie['name'].'</li>'; 
-        } 
-
-        ?>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Add new movie</h2>
-      <form action="#" method="POST">
-        <label for="name">
-          Name:
-          <input id="name" name="name" placeholder="Name"/>
-        </label>
-        <label for="description">
-          Image:
-          <input id="image" name="image" placeholder="Image URL"/>
-        </label>
-        <input type="submit"/>
-      </form>
-      <?php 
-
-      $name = isset($_POST['name']) ? $_POST['name'] : null;
-      $image = isset($_POST['image']) ? $_POST['image'] : null;
-
-      if($name && $image) {
-        $movie_model->create($name, $image);
-      }
-      
-      ?>
-    </section>
-
-  </body>
-</html>
