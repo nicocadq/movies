@@ -23,7 +23,7 @@ movies (
 
 - Configurar las variables de entorno en el archivo `config.inc.php`
 
-## Installation
+## Instalación
 
 Instalar las dependencias del proyecto utilizando [composer](https://getcomposer.org/).
 
@@ -33,21 +33,21 @@ composer install
 
 Desplegar la carpeta del proyecto en el servidor APACHE.
 
-## Usage
+## Uso
 
-- Get all movies
+- Ver todas las peliculas
 
 ```
 @GET ('/')
 ```
 
-- Get one movie by id
+- Ver una pelicula a travez de su `id`
 
 ```
 @GET('/?id=:movie_id')
 ```
 
-- Create a movie
+- Crear una pelicula
 
 ```
 @POST('/')
@@ -62,7 +62,7 @@ Desplegar la carpeta del proyecto en el servidor APACHE.
 
 Dentro del proyecto se encuentra la collección de requests de [Postman](https://www.postman.com/). Pueden importarla utilizando la [aplicación](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/).
 
-## Authors
+## Autores
 
 - Avril Bentancor.
 - Nicolás Machado da Silva.
