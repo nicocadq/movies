@@ -4,7 +4,6 @@ require 'vendor/autoload.php';
 
 require_once './MovieModel.php';
 
-
 header('Content-Type: application/json');
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -17,7 +16,7 @@ switch($method){
         post();
         break;
     default:
-        http_response_code(404);
+        http_response_code(405);
         echo json_encode(['error' => 'Unavailable method.'], JSON_PRETTY_PRINT);
         break;
 }
@@ -25,8 +24,15 @@ switch($method){
 function get() {
   $movie_model = new MovieModel();
 
-  http_response_code(200);
-  echo json_encode($movie_model->get_all(), JSON_PRETTY_PRINT);
+  $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : null;
+
+  if($id){
+    http_response_code(200);
+    echo json_encode($movie_model->get_by_id($id), JSON_PRETTY_PRINT);
+  }else{
+    http_response_code(200);
+    echo json_encode($movie_model->get_all(), JSON_PRETTY_PRINT);
+  }
 }
 
 function post() {
@@ -39,7 +45,8 @@ function post() {
     $is_created = $movie_model->create($name, $image);
 
     if($is_created) {
-      sendMovieEmail($name, $image);
+      $mailer = new Mailer($name, $image);
+      $mailer->send();
 
       http_response_code(201);
       echo json_encode('Successfully created', JSON_PRETTY_PRINT);
@@ -52,6 +59,5 @@ function post() {
     echo json_encode('Missing params', JSON_PRETTY_PRINT);
   }
 }
-
 
 ?>

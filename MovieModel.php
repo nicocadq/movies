@@ -20,6 +20,13 @@ class MovieModel extends Database {
     return $data; 
   }
 
+  
+  function get_by_id($id){
+   $sql_query = 'SELECT * FROM movies WHERE id='. $id;
+   $data = parent::get_data($sql_query);
+   return $data;
+  }
+
 }
 
 ?>
