@@ -38,14 +38,13 @@ function get() {
 function post() {
   $movie_model = new MovieModel();
 
-  $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : null;
-  $image = isset($_REQUEST['image']) ? $_REQUEST['image'] : null;
+  $body_data = json_decode(file_get_contents('php://input'));
 
-  if($name && $image) {
-    $is_created = $movie_model->create($name, $image);
+  if($body_data->name && $body_data->image) {
+    $is_created = $movie_model->create($body_data->name, $body_data->image);
 
     if($is_created) {
-      $mailer = new Mailer($name, $image);
+      $mailer = new Mailer($body_data->name, $body_data->image);
       $mailer->send();
 
       http_response_code(201);

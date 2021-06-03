@@ -30,7 +30,7 @@ class Mailer {
     
             $mail->setFrom(USER_EMAIL, USER_NAME);
     
-            $mail->addAddress($to); 
+            $mail->addAddress($this->to); 
     
             $mail->addReplyTo(REPLY);
     
